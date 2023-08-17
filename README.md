@@ -1,5 +1,6 @@
 # PEARL
-The repo structure is shown below. The `data` directory contains all data needed for training and evaluation. <br>
+The repo structure is shown below. <br>
+The `data` directory contains all data needed for training and evaluation. <br>
 The `output` directory has our model (PEARL-small), and you can use it to reproduce the results reported in Table 1. <br>
 The `source` directory includes all the source code for our framework.
 ```
@@ -56,13 +57,13 @@ First, you can use `-help` to show the arguments
 ```python
 python main.py -help
 ```
-Once completing the data preparation and environment setup, we can train the model via `train.py`.
+Once completing the data preparation and environment setup, we can train the model via `main.py`.
 We have also provided sample datasets, you can just run the mode without downloading.
 ```python
 python main.py -encoder pearl_small -dataset '../data/freq_phrase.txt'
 ```
 ## Reproduction
-To show the experimental results of Table 1, you can use the following command and 
+To show the experimental results in Table 1, you can use the following command and 
 we have provided the trained model we used in our paper. 
 
 ```python
