@@ -49,8 +49,8 @@ The `source` directory includes all the source code for our framework.
     │   __init__.py
 ```
 ## Data Preparation
-* All dataset and training corpus: [downlaod](https://www.dropbox.com/scl/fi/49c87s9tm8jgf3gwmcz0e/data.zip?rlkey=g47iv7oy5fgonj6obe2d8kiq1&dl=0)
-* [PEARL-small](https://www.dropbox.com/scl/fi/96nui29fj6wlj7roy6pl4/output.zip?rlkey=ra0lngk9afyokpqv9xcrptjyz&dl=0)
+* All dataset and training corpus: [downlaod](https://www.dropbox.com/scl/fi/49c87s9tm8jgf3gwmcz0e/data.zip?rlkey=g47iv7oy5fgonj6obe2d8kiq1&dl=1)
+* [PEARL-small](https://www.dropbox.com/scl/fi/96nui29fj6wlj7roy6pl4/output.zip?rlkey=ra0lngk9afyokpqv9xcrptjyz&dl=1)
 
 ## Training
 First, you can use `-help` to show the arguments
