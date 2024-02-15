@@ -1,4 +1,15 @@
 # PEARL (Learning High-Quality and General-Purpose Phrase Representations)
+
+
+| Model |Size| PPDB | PPDB filtered |Turney|BIRD|YAGO|UMLS|CoNLL|BC5CDR|AutoFJ|Avg|
+|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|
+| FastText  |-|  94.4  | 61.2  |  59.6  | 58.9  |16.9|14.5|3.0|0.2| 53.6|40.3|
+| Sentence-BERT  |110M| 94.6  | 66.8  | 50.4  | 62.6  | 21.6|23.6|25.5|48.4| 57.2| 50.1|
+| Phrase-BERT  |110M|  96.8  |  68.7  | 57.2  |  68.8  |23.7|26.1|35.4| 59.5|66.9| 54.5|
+| E5-small  |34M|  96.0| 56.8|55.9| 63.1|43.3| 42.0|27.6| 53.7|74.8|57.0|
+|E5-base|110M|  95.4|65.6|59.4|66.3| 47.3|44.0|32.0| 69.3|76.1|61.1|
+|PEARL-small|34M|  97.0|70.2|57.9|68.1| 48.1|44.5|42.4|59.3|75.2|62.5
+
 The repo structure is shown below. <br>
 The `data` directory contains all data needed for training and evaluation. [data](https://www.dropbox.com/scl/fi/49c87s9tm8jgf3gwmcz0e/data.zip?rlkey=g47iv7oy5fgonj6obe2d8kiq1&dl=1) <br>
 The `output` directory has our model (PEARL-small), and you can use it to reproduce the results reported in Table 1. [PEARL-small](https://www.dropbox.com/scl/fi/96nui29fj6wlj7roy6pl4/output.zip?rlkey=ra0lngk9afyokpqv9xcrptjyz&dl=1)
@@ -83,3 +94,5 @@ yago_acc = 0.4813
 umls_acc = 0.4347
 
 ```
+
+
