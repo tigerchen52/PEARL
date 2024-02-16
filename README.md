@@ -9,7 +9,7 @@
 | E5-small  |34M|  96.0| 56.8|55.9| 63.1|43.3| 42.0|27.6| 53.7|74.8|57.0|
 |E5-base|110M|  95.4|65.6|59.4|66.3| 47.3|44.0|32.0| 69.3|76.1|61.1|
 |PEARL-small|34M|  97.0|70.2|57.9|68.1| 48.1|44.5|42.4|59.3|75.2|62.5|
-|PEARL-base|110M|96.6|72.2|59.7|72.1|50.7|45.8|39.3|69.4|77.1|64.8|
+|PEARL-base|110M|97.3|72.2|59.7|72.6|50.7|45.8|39.3|69.4|77.1|64.8|
 
 The repo structure is shown below. <br>
 The `data` directory contains all data needed for training and evaluation. [data](https://www.dropbox.com/scl/fi/49c87s9tm8jgf3gwmcz0e/data.zip?rlkey=g47iv7oy5fgonj6obe2d8kiq1&dl=1) <br>
