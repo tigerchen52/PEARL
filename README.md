@@ -1,7 +1,7 @@
 # PEARL (Learning High-Quality and General-Purpose Phrase Representations)
 
 
-| Model |Size| PPDB | PPDB filtered |Turney|BIRD|YAGO|UMLS|CoNLL|BC5CDR|AutoFJ|Avg|
+| Model |Size| PPDB | PPDB filtered |Turney|BIRD|YAGO|UMLS|CoNLL|BC5CDR|AutoFJ|Avg
 |-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|
 | FastText  |-|  94.4  | 61.2  |  59.6  | 58.9  |16.9|14.5|3.0|0.2| 53.6|40.3|
 | Sentence-BERT  |110M| 94.6  | 66.8  | 50.4  | 62.6  | 21.6|23.6|25.5|48.4| 57.2| 50.1|
