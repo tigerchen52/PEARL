@@ -8,7 +8,7 @@ import nltk
 def load_synonym():
     synonyms = dict()
     empty_cnt, total_cnt = 0, 0
-    for line in open('../data/token_aug_test.jsonl', encoding='utf8'):
+    for line in open('train_data/token_aug.jsonl', encoding='utf8'):
         total_cnt += 1
         obj = json.loads(line)
         phrase, all_syn = obj['phrase'], obj['synonyms']
@@ -27,7 +27,7 @@ phrase_synonyms = load_synonym()
 def load_parrot():
     synonyms = dict()
     empty_cnt, total_cnt = 0, 0
-    for line in open('../data/phrase_aug_test.jsonl', encoding='utf8'):
+    for line in open('train_data/phrase_aug.jsonl', encoding='utf8'):
         total_cnt += 1
         obj = json.loads(line)
         phrase, aug = obj['phrase'], list(set(obj['aug']))
@@ -124,7 +124,7 @@ def parrot_aug(phrase):
     return phrase
 
 
-def get_random_aug(phrase, probs=[0.30, 0.20, 0.30, 0.10, 0.10]):
+def get_random_aug(phrase, probs=[0.10, 0.30, 0.50, 0.05, 0.05]):
     attack_type = ['character', 'synonym', 'parrot', 'swap', 'unchange']
     attack_probs = np.array(probs)
     attack_probs = attack_probs / sum(attack_probs)

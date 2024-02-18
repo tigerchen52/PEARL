@@ -3,7 +3,7 @@ from functools import partial
 import torch
 import random
 from torch.utils.data import DataLoader
-from utils import load_dataset, TextData, get_char_input, get_char_batch, load_hard_negative, get_type_id, load_phrase_con
+from utils import load_dataset, TextData, load_hard_negative, get_type_id, load_phrase_con
 from augmentation import get_random_aug
 registry = {}
 register = partial(register, registry=registry)
@@ -25,7 +25,6 @@ class PhraseLoader():
     def collate_fn(self, batch_data):
         freq_list, ptype_list, phrase_list, p_type_label = list(zip(*batch_data))
         batch_origin_phrase, batch_aug_phrase, batch_origin_input, batch_aug_input = list(), list(), list(), list()
-        batch_origin_char_id, batch_aug_char_id = list(), list()
 
         phrase_with_negs, p_type_label_with_negs = list(), list()
         for index in range(len(phrase_list)):
@@ -47,21 +46,10 @@ class PhraseLoader():
             batch_origin_phrase.append(origin_phrase)
             batch_aug_phrase.append(aug_phrase)
 
-            # character-level feature
-            origin_phrase_char, origin_phrase_char_ids = get_char_input(origin_phrase)
-            aug_phrase_char, aug_phrase_char_ids = get_char_input(aug_phrase)
-            batch_origin_char_id.append(origin_phrase_char_ids)
-            batch_aug_char_id.append(aug_phrase_char_ids)
-
-            #print(origin_phrase_char, origin_phrase_char_ids)
-
-        batch_origin_char_id, origin_char_mask = get_char_batch(batch_origin_char_id)
-        batch_aug_char_id, aug_char_mask = get_char_batch(batch_aug_char_id)
-
         # ptype
         batch_type = torch.tensor(p_type_label_with_negs)
 
-        return batch_origin_phrase, batch_aug_phrase, batch_origin_char_id, batch_aug_char_id, origin_char_mask, aug_char_mask, batch_type
+        return batch_origin_phrase, batch_aug_phrase, batch_type
 
     def __call__(self, data_path):
         dataset = load_dataset(path=data_path, lower=self.lowercase)
