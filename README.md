@@ -59,16 +59,44 @@ print(scores.tolist())
 # [[90.56318664550781, 79.65763854980469, 75.52054595947266]]
 ```
 ## Evaluation
-We evaluate phrase embeddings on a benchmark that contains 9 datasets of 5 different tasks.
+We evaluate phrase embeddings on a benchmark that contains 9 datasets of 5 different tasks. :inbox_tray: [Download Benchmark](https://)
 | - | PPDB | PPDB filtered |Turney|BIRD|YAGO|UMLS|CoNLL|BC5CDR|AutoFJ|
 |-|-|-|-|-|-|-|-|-|-|
 |Task|Paraphrase Classification|Paraphrase Classification|Phrase Similarity|Phrase Similarity|Entity Retrieval|Entity Retrieval|Entity Clustering|Entity Clustering|Fuzzy Join|
 |Metric|Acc|Acc|Acc|Pearson|Top-1 Acc|Top-1 Acc|NMI|NMI|Acc|
 
-:inbox_tray: [Download Benchmark](https://)
+Run the script `Evaluation/eval.py` to get scores in our paper.
 ```python
-sh eval.sh
+python eval.py -batch_size 8
 ```
+
+**Evaluate your custom model** <br>
+You need to implement a `Module` class to generate embeddings given a list of texts, and then reuse the `eval.py`.
+```python
+class PearlSmallModel(nn.Module):
+    def __init__(self):
+        super().__init__()
+        model_name = "Lihuchen/pearl_small"
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+        self.model = AutoModel.from_pretrained(model_name)
+
+
+    def average_pool(self, last_hidden_states, attention_mask):
+        last_hidden = last_hidden_states.masked_fill(~attention_mask[..., None].bool(), 0.0)
+        return last_hidden.sum(dim=1) / attention_mask.sum(dim=1)[..., None]
+        
+
+    def forward(self, x, device):
+        # Tokenize the input texts
+        batch_dict = self.tokenizer(x, max_length=128, padding=True, truncation=True, return_tensors='pt')
+        batch_dict = batch_dict.to(device)
+
+        outputs = self.model(**batch_dict)
+        phrase_vec = self.average_pool(outputs.last_hidden_state, batch_dict['attention_mask'])
+
+        return phrase_vec
+```
+
 
 The repo structure is shown below. <br>
 The `data` directory contains all data needed for training and evaluation. [data](https://www.dropbox.com/scl/fi/49c87s9tm8jgf3gwmcz0e/data.zip?rlkey=g47iv7oy5fgonj6obe2d8kiq1&dl=1) <br>
