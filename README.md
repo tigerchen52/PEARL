@@ -65,7 +65,7 @@ We evaluate phrase embeddings on a benchmark that contains 9 datasets of 5 diffe
 |Task|Paraphrase Classification|Paraphrase Classification|Phrase Similarity|Phrase Similarity|Entity Retrieval|Entity Retrieval|Entity Clustering|Entity Clustering|Fuzzy Join|
 |Metric|Acc|Acc|Acc|Pearson|Top-1 Acc|Top-1 Acc|NMI|NMI|Acc|
 
-Put the downloaded `eval_data/` into `evaluation/` dicrectory and run the script `Evaluation/eval.py` to get scores in our paper.
+Put the downloaded `eval_data/` into `evaluation/` dicrectory and run the script `evaluation/eval.py` to get scores in our paper.
 ```python
 python eval.py -batch_size 8
 ```
@@ -98,20 +98,23 @@ class PearlSmallModel(nn.Module):
 ```
 
 
-The repo structure is shown below. <br>
-The `data` directory contains all data needed for training and evaluation. [data](https://www.dropbox.com/scl/fi/49c87s9tm8jgf3gwmcz0e/data.zip?rlkey=g47iv7oy5fgonj6obe2d8kiq1&dl=1) <br>
-The `output` directory has our model (PEARL-small), and you can use it to reproduce the results reported in Table 1. [PEARL-small](https://www.dropbox.com/scl/fi/96nui29fj6wlj7roy6pl4/output.zip?rlkey=ra0lngk9afyokpqv9xcrptjyz&dl=1)
-<br>
-
 ## Training
-First, you can use `-help` to show the arguments
+Download all needed training files: :inbox_tray: [Download Training Files](https://zenodo.org/records/10676475/files/train_data.zip?download=1) <br>
+There are five files in total:
+* `freq_phrase.txt` has more than 3M phrases
+* `phrase_with_etype.txt` has the entity label for the Phrase Type Classification
+* `token_aug.jsonl` has token-level augmentations
+* `phrase_aug.jsonl` has phrase-level augmentations
+* `hard_negative.txt` has pre-defined hard negatives
+
+Put the downloaded files into `source/train_data`.
+
 ```python
 python main.py -help
 ```
 Once completing the data preparation and environment setup, we can train the model via `main.py`.
-We have also provided sample datasets, you can just run the mode without downloading.
 ```python
-python main.py -encoder pearl_small -dataset '../data/freq_phrase.txt'
+python main.py -target_model intfloat/e5-small-v2 -dim 384
 ```
 
 ## Citation
