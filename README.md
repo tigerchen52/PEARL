@@ -1,5 +1,9 @@
 # PEARL (Learning High-Quality and General-Purpose Phrase Representations)
+:book: [paper](https://arxiv.org/pdf/2401.10407.pdf)  🤗 [PEARL-small](https://huggingface.co/Lihuchen/pearl_small) 🤗 [PEARL-base](Lihuchen/pearl_base)
 
+Our PEARL is a framework to learn phrase-level representations. <br>
+If you require semantic similarity computation for strings, our PEARL model might be a helpful tool. <br>
+It offers powerful embeddings suitable for tasks like string matching, entity retrieval, entity clustering, and fuzzy join. 
 
 | Model |Size| PPDB | PPDB filtered |Turney|BIRD|YAGO|UMLS|CoNLL|BC5CDR|AutoFJ|Avg
 |-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|
