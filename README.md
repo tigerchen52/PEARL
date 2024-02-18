@@ -15,64 +15,65 @@ It offers powerful embeddings suitable for tasks like string matching, entity re
 |PEARL-small|34M|  97.0|70.2|57.9|68.1| 48.1|44.5|42.4|59.3|75.2|62.5|
 |PEARL-base|110M|97.3|72.2|59.7|72.6|50.7|45.8|39.3|69.4|77.1|64.8|
 
+## Usage
+Check out our model on Huggingface: 🤗 [PEARL-small](https://huggingface.co/Lihuchen/pearl_small) 🤗 [PEARL-base](Lihuchen/pearl_base)
+
+```python
+import torch.nn.functional as F
+
+from torch import Tensor
+from transformers import AutoTokenizer, AutoModel
+
+
+def average_pool(last_hidden_states: Tensor,
+                 attention_mask: Tensor) -> Tensor:
+    last_hidden = last_hidden_states.masked_fill(~attention_mask[..., None].bool(), 0.0)
+    return last_hidden.sum(dim=1) / attention_mask.sum(dim=1)[..., None]
+
+def encode_text(model, input_texts):
+    # Tokenize the input texts
+    batch_dict = tokenizer(input_texts, max_length=512, padding=True, truncation=True, return_tensors='pt')
+
+    outputs = model(**batch_dict)
+    embeddings = average_pool(outputs.last_hidden_state, batch_dict['attention_mask'])
+    
+    return embeddings
+
+
+query_texts = ["The New York Times"]
+doc_texts = [ "NYTimes", "New York Post", "New York"]
+input_texts = query_texts + doc_texts
+
+tokenizer = AutoTokenizer.from_pretrained('Lihuchen/pearl_small')
+model = AutoModel.from_pretrained('Lihuchen/pearl_small')
+
+# encode
+embeddings = encode_text(model, input_texts)
+
+# calculate similarity
+embeddings = F.normalize(embeddings, p=2, dim=1)
+scores = (embeddings[:1] @ embeddings[1:].T) * 100
+print(scores.tolist())
+
+# expected outputs
+# [[90.56318664550781, 79.65763854980469, 75.52054595947266]]
+```
+## Evaluation
+We evaluate phrase embeddings on a benchmark that contains 9 datasets of 5 different tasks.
 | - | PPDB | PPDB filtered |Turney|BIRD|YAGO|UMLS|CoNLL|BC5CDR|AutoFJ|
 |-|-|-|-|-|-|-|-|-|-|
 |Task|Paraphrase Classification|Paraphrase Classification|Phrase Similarity|Phrase Similarity|Entity Retrieval|Entity Retrieval|Entity Clustering|Entity Clustering|Fuzzy Join|
 |Metric|Acc|Acc|Acc|Pearson|Top-1 Acc|Top-1 Acc|NMI|NMI|Acc|
 
+:inbox_tray: [Download Benchmark](https://)
+```python
+sh eval.sh
+```
+
 The repo structure is shown below. <br>
 The `data` directory contains all data needed for training and evaluation. [data](https://www.dropbox.com/scl/fi/49c87s9tm8jgf3gwmcz0e/data.zip?rlkey=g47iv7oy5fgonj6obe2d8kiq1&dl=1) <br>
 The `output` directory has our model (PEARL-small), and you can use it to reproduce the results reported in Table 1. [PEARL-small](https://www.dropbox.com/scl/fi/96nui29fj6wlj7roy6pl4/output.zip?rlkey=ra0lngk9afyokpqv9xcrptjyz&dl=1)
 <br>
-The `source` directory includes all the source code for our framework.
-```
-├───data
-│   │   autofj.md
-│   │   bird.txt
-│   │   freq_phrase.txt
-│   │   hard_negative_test.txt
-│   │   love_model.pt
-│   │   phrase_aug_test.jsonl
-│   │   phrase_with_etype.txt
-│   │   ppdb.json
-│   │   ppdb_filtered.json
-│   │   token_aug_test.jsonl
-│   │   turney.txt
-│   │   vocab.txt
-│   │
-│   ├───bc5cdr
-│   │       test.json
-│   │
-│   ├───conll2003
-│   │       test.json
-│   │
-│   ├───umls
-│   │       umls_kb.txt
-│   │       umls_test.txt
-│   │
-│   └───yago
-│           yago_kb.txt
-│           yago_test.txt
-│
-├───output
-└───source
-    │   augmentation.py
-    │   clean.py
-    │   evaluation.py
-    │   loader.py
-    │   loss.py
-    │   love_inference.py
-    │   love_model.py
-    │   main.py
-    │   model.py
-    │   registry.py
-    │   tokenization.py
-    │   utils.py
-    │   __init__.py
-```
-## Data Preparation
-* All dataset and training corpus: [download](https://www.dropbox.com/scl/fi/49c87s9tm8jgf3gwmcz0e/data.zip?rlkey=g47iv7oy5fgonj6obe2d8kiq1&dl=1)
-* [PEARL-small](https://www.dropbox.com/scl/fi/96nui29fj6wlj7roy6pl4/output.zip?rlkey=ra0lngk9afyokpqv9xcrptjyz&dl=1)
 
 ## Training
 First, you can use `-help` to show the arguments
@@ -84,25 +85,15 @@ We have also provided sample datasets, you can just run the mode without downloa
 ```python
 python main.py -encoder pearl_small -dataset '../data/freq_phrase.txt'
 ```
-## Reproduction
-To show the experimental results in Table 1, you can use the following command and 
-we have provided the trained model we used in our paper. 
 
-```python
-python run_eval.py
-
-## expected output
-model parameters：~40M
-bird_score = 0.6983
-turney_score = 0.5623
-conll_nmi = 0.4829
-bc5cdr_nmi = 0.6240
-ppdb_acc = 0.9745
-ppdb_filtered_acc = 0.6876
-autofj_acc = 0.7471
-yago_acc = 0.4813
-umls_acc = 0.4347
-
+## Citation
+If you find our paper and code useful, please give us a citation :blush:
 ```
-
+@article{chen2024learning,
+  title={Learning High-Quality and General-Purpose Phrase Representations},
+  author={Chen, Lihu and Varoquaux, Ga{\"e}l and Suchanek, Fabian M},
+  journal={arXiv preprint arXiv:2401.10407},
+  year={2024}
+}
+```
 
