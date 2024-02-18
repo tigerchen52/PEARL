@@ -11,6 +11,11 @@
 |PEARL-small|34M|  97.0|70.2|57.9|68.1| 48.1|44.5|42.4|59.3|75.2|62.5|
 |PEARL-base|110M|97.3|72.2|59.7|72.6|50.7|45.8|39.3|69.4|77.1|64.8|
 
+| - | PPDB | PPDB filtered |Turney|BIRD|YAGO|UMLS|CoNLL|BC5CDR|AutoFJ|
+|-|-|-|-|-|-|-|-|-|-|
+|Task|Paraphrase Classification|Paraphrase Classification|Phrase Similarity|Phrase Similarity|Entity Retrieval|Entity Retrieval|Entity Clustering|Entity Clustering|Fuzzy Join|
+|Metric|Acc|Acc|Acc|Pearson|Top-1 Acc|Top-1 Acc|NMI|NMI|Acc|
+
 The repo structure is shown below. <br>
 The `data` directory contains all data needed for training and evaluation. [data](https://www.dropbox.com/scl/fi/49c87s9tm8jgf3gwmcz0e/data.zip?rlkey=g47iv7oy5fgonj6obe2d8kiq1&dl=1) <br>
 The `output` directory has our model (PEARL-small), and you can use it to reproduce the results reported in Table 1. [PEARL-small](https://www.dropbox.com/scl/fi/96nui29fj6wlj7roy6pl4/output.zip?rlkey=ra0lngk9afyokpqv9xcrptjyz&dl=1)
