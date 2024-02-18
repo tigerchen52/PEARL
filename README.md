@@ -1,5 +1,5 @@
 # PEARL (Learning High-Quality and General-Purpose Phrase Representations)
-:book: [paper](https://arxiv.org/pdf/2401.10407.pdf)  🤗 [PEARL-small](https://huggingface.co/Lihuchen/pearl_small) 🤗 [PEARL-base](Lihuchen/pearl_base)
+:book: [paper](https://arxiv.org/pdf/2401.10407.pdf)  🤗 [PEARL-small](https://huggingface.co/Lihuchen/pearl_small) 🤗 [PEARL-base](https://huggingface.co/Lihuchen/pearl_base)
  :floppy_disk: [data](https://zenodo.org/records/10676475)
 
 Our PEARL is a framework to learn phrase-level representations. <br>
@@ -17,7 +17,7 @@ It offers powerful embeddings suitable for tasks like string matching, entity re
 |PEARL-base|110M|97.3|72.2|59.7|72.6|50.7|45.8|39.3|69.4|77.1|64.8|
 
 ## Usage
-Check out our model on Huggingface: 🤗 [PEARL-small](https://huggingface.co/Lihuchen/pearl_small) 🤗 [PEARL-base](Lihuchen/pearl_base)
+Check out our model on Huggingface: 🤗 [PEARL-small](https://huggingface.co/Lihuchen/pearl_small) 🤗 [PEARL-base](https://huggingface.co/Lihuchen/pearl_base)
 
 ```python
 import torch.nn.functional as F
