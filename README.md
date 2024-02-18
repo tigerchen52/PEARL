@@ -59,13 +59,13 @@ print(scores.tolist())
 # [[90.56318664550781, 79.65763854980469, 75.52054595947266]]
 ```
 ## Evaluation
-We evaluate phrase embeddings on a benchmark that contains 9 datasets of 5 different tasks. :inbox_tray: [Download Benchmark](https://)
+We evaluate phrase embeddings on a benchmark that contains 9 datasets of 5 different tasks. :inbox_tray: [Download Benchmark](https://zenodo.org/records/10676475/files/eval_data.zip?download=1)
 | - | PPDB | PPDB filtered |Turney|BIRD|YAGO|UMLS|CoNLL|BC5CDR|AutoFJ|
 |-|-|-|-|-|-|-|-|-|-|
 |Task|Paraphrase Classification|Paraphrase Classification|Phrase Similarity|Phrase Similarity|Entity Retrieval|Entity Retrieval|Entity Clustering|Entity Clustering|Fuzzy Join|
 |Metric|Acc|Acc|Acc|Pearson|Top-1 Acc|Top-1 Acc|NMI|NMI|Acc|
 
-Run the script `Evaluation/eval.py` to get scores in our paper.
+Put the downloaded `eval_data/` into `evaluation/` dicrectory and run the script `Evaluation/eval.py` to get scores in our paper.
 ```python
 python eval.py -batch_size 8
 ```
