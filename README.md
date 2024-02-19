@@ -1,6 +1,6 @@
 # PEARL (Learning High-Quality and General-Purpose Phrase Representations)
-:book: [paper](https://arxiv.org/pdf/2401.10407.pdf)  🤗 [PEARL-small](https://huggingface.co/Lihuchen/pearl_small) 🤗 [PEARL-base](https://huggingface.co/Lihuchen/pearl_base)
- :floppy_disk: [data](https://zenodo.org/records/10676475)
+| **[ :book: paper](https://arxiv.org/pdf/2401.10407.pdf)** |  **[🤗 PEARL-small](https://huggingface.co/Lihuchen/pearl_small)** |  **[🤗 PEARL-base](https://huggingface.co/Lihuchen/pearl_base)** |
+  **[:floppy_disk: data](https://zenodo.org/records/10676475)** |
 
 Our PEARL is a framework to learn phrase-level representations. <br>
 If you require semantic similarity computation for strings, our PEARL model might be a helpful tool. <br>
@@ -120,7 +120,7 @@ python main.py -target_model intfloat/e5-small-v2 -dim 384
 
 ## Citation
 If you find our paper and code useful, please give us a citation :blush:
-```
+```bibtex
 @article{chen2024learning,
   title={Learning High-Quality and General-Purpose Phrase Representations},
   author={Chen, Lihu and Varoquaux, Ga{\"e}l and Suchanek, Fabian M},
