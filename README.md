@@ -16,7 +16,7 @@ It offers powerful embeddings suitable for tasks like string matching, entity re
 |PEARL-small|34M|  97.0|70.2|57.9|68.1| 48.1|44.5|42.4|59.3|75.2|62.5|
 |PEARL-base|110M|97.3|72.2|59.7|72.6|50.7|45.8|39.3|69.4|77.1|64.8|
 
-Cost comparison of FastText and PEARL. The estimated memory is calculated by the number of parameters (float16). The unit of inference speed is `*ms/512 samples`. 
+Cost comparison of FastText and PEARL. The estimated memory is calculated by the number of parameters (float16). The unit of inference speed is `*ms/512 samples`. The FastText model here is `crawl-300d-2M-subword.bin`.
 | Model |Avg Score| Estimated Memory |Speed GPU | Speed CPU |
 |-|-|-|-|-|
 |FastText|40.3|1200MB|-|57ms|
