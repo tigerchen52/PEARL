@@ -1,5 +1,5 @@
 # PEARL (Learning High-Quality and General-Purpose Phrase Representations)
-| **[ :book: paper](https://arxiv.org/pdf/2401.10407.pdf)** |  **[🤗 PEARL-small](https://huggingface.co/Lihuchen/pearl_small)** |  **[🤗 PEARL-base](https://huggingface.co/Lihuchen/pearl_base)** |
+| **[ :book: paper](https://arxiv.org/pdf/2401.10407.pdf)** |  **[🤗 PEARL-small](https://huggingface.co/Lihuchen/pearl_small)** |  **[🤗 PEARL-base](https://huggingface.co/Lihuchen/pearl_base)** |🤗 [PEARL-Benchmark](https://huggingface.co/datasets/Lihuchen/pearl_benchmark)|
   **[:floppy_disk: data](https://zenodo.org/records/10676475)** |
 
 Our PEARL is a framework to learn phrase-level representations. <br>
@@ -28,82 +28,36 @@ Cost comparison of FastText and PEARL. The estimated memory is calculated by the
 Check out our model on Huggingface: 🤗 [PEARL-small](https://huggingface.co/Lihuchen/pearl_small) 🤗 [PEARL-base](https://huggingface.co/Lihuchen/pearl_base)
 
 ```python
-import torch.nn.functional as F
-
-from torch import Tensor
-from transformers import AutoTokenizer, AutoModel
-
-
-def average_pool(last_hidden_states: Tensor,
-                 attention_mask: Tensor) -> Tensor:
-    last_hidden = last_hidden_states.masked_fill(~attention_mask[..., None].bool(), 0.0)
-    return last_hidden.sum(dim=1) / attention_mask.sum(dim=1)[..., None]
-
-def encode_text(model, input_texts):
-    # Tokenize the input texts
-    batch_dict = tokenizer(input_texts, max_length=512, padding=True, truncation=True, return_tensors='pt')
-
-    outputs = model(**batch_dict)
-    embeddings = average_pool(outputs.last_hidden_state, batch_dict['attention_mask'])
-    
-    return embeddings
-
+from sentence_transformers import SentenceTransformer, util
 
 query_texts = ["The New York Times"]
 doc_texts = [ "NYTimes", "New York Post", "New York"]
 input_texts = query_texts + doc_texts
 
-tokenizer = AutoTokenizer.from_pretrained('Lihuchen/pearl_small')
-model = AutoModel.from_pretrained('Lihuchen/pearl_small')
-
-# encode
-embeddings = encode_text(model, input_texts)
-
-# calculate similarity
-embeddings = F.normalize(embeddings, p=2, dim=1)
-scores = (embeddings[:1] @ embeddings[1:].T) * 100
+model = SentenceTransformer("Lihuchen/pearl_small")
+embeddings = model.encode(input_texts)
+scores = util.cos_sim(embeddings[0], embeddings[1:]) * 100
 print(scores.tolist())
-
-# expected outputs
-# [[90.56318664550781, 79.65763854980469, 75.52054595947266]]
+# [[90.56318664550781, 79.65763854980469, 75.52056121826172]]
 ```
 ## Evaluation
-We evaluate phrase embeddings on a benchmark that contains 9 datasets of 5 different tasks. :inbox_tray: [Download Benchmark](https://zenodo.org/records/10676475/files/eval_data.zip?download=1)
+We evaluate phrase embeddings on a benchmark that contains 9 datasets of 5 different tasks. 🤗 [PEARL-Benchmark](https://huggingface.co/datasets/Lihuchen/pearl_benchmark) 
+* **Paraphrase Classification**: PPDB and PPDBfiltered ([Wang et al., 2021](https://aclanthology.org/2021.emnlp-main.846/))
+* **Phrase Similarity**: Turney ([Turney, 2012](https://arxiv.org/pdf/1309.4035.pdf)) and BIRD ([Asaadi et al., 2019](https://aclanthology.org/N19-1050/))
+* **Entity Retrieval**: We constructed two datasets based on Yago ([Pellissier Tanon et al., 2020](https://hal-lara.archives-ouvertes.fr/DIG/hal-03108570v1)) and UMLS ([Bodenreider, 2004](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC308795/))
+* **Entity Clustering**: CoNLL 03 ([Tjong Kim Sang, 2002](https://aclanthology.org/W02-2024/)) and BC5CDR ([Li et al., 2016](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4860626/))
+* **Fuzzy Join**: AutoFJ benchmark ([Li et al., 2021](https://arxiv.org/abs/2103.04489)), which contains 50 diverse fuzzy-join datasets 
+
 | - | PPDB | PPDB filtered |Turney|BIRD|YAGO|UMLS|CoNLL|BC5CDR|AutoFJ|
 |-|-|-|-|-|-|-|-|-|-|
 |Task|Paraphrase Classification|Paraphrase Classification|Phrase Similarity|Phrase Similarity|Entity Retrieval|Entity Retrieval|Entity Clustering|Entity Clustering|Fuzzy Join|
+|Samples|23.4k|15.5k|2.2k|3.4k|10k|10k|5.0k|9.7k|50 subsets|
+|Averaged Length|2.5|2.0|1.2|1.7|3.3|4.1|1.5|1.4|3.8|
 |Metric|Acc|Acc|Acc|Pearson|Top-1 Acc|Top-1 Acc|NMI|NMI|Acc|
 
-Put the downloaded `eval_data/` into `evaluation/` dicrectory and run the script `evaluation/eval.py` to get scores in our paper.
+### Use our script to evaluate your model on PEARL benchmark
 ```python
 python eval.py -batch_size 8
-```
-
-**Evaluate your custom model** <br>
-You need to implement a `Module` class to generate embeddings given a list of texts, and then reuse the `eval.py`.
-```python
-class PearlSmallModel(nn.Module):
-    def __init__(self):
-        super().__init__()
-        model_name = "Lihuchen/pearl_small"
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-        self.model = AutoModel.from_pretrained(model_name)
-
-
-    def average_pool(self, last_hidden_states, attention_mask):
-        last_hidden = last_hidden_states.masked_fill(~attention_mask[..., None].bool(), 0.0)
-        return last_hidden.sum(dim=1) / attention_mask.sum(dim=1)[..., None]
-        
-
-    def forward(self, x, device):
-        # Tokenize the input texts
-        batch_dict = self.tokenizer(x, max_length=128, padding=True, truncation=True, return_tensors='pt')
-        batch_dict = batch_dict.to(device)
-
-        outputs = self.model(**batch_dict)
-        phrase_vec = self.average_pool(outputs.last_hidden_state, batch_dict['attention_mask'])
-
-        return phrase_vec
 ```
 
 
