@@ -1,5 +1,5 @@
 # PEARL (Learning High-Quality and General-Purpose Phrase Representations)
-| **[ :book: paper](https://arxiv.org/pdf/2401.10407.pdf)** |  **[🤗 PEARL-small](https://huggingface.co/Lihuchen/pearl_small)** |  **[🤗 PEARL-base](https://huggingface.co/Lihuchen/pearl_base)** | 🤗 [PEARL-Benchmark](https://huggingface.co/datasets/Lihuchen/pearl_benchmark)|
+| **[ :book: paper](https://arxiv.org/pdf/2401.10407.pdf)** |  **[🤗 PEARL-small](https://huggingface.co/Lihuchen/pearl_small)** |  **[🤗 PEARL-base](https://huggingface.co/Lihuchen/pearl_base)** | 🤗 **[PEARL-Benchmark](https://huggingface.co/datasets/Lihuchen/pearl_benchmark)** |
   **[:floppy_disk: data](https://zenodo.org/records/10676475)** |
 
 Our PEARL is a framework to learn phrase-level representations. <br>
